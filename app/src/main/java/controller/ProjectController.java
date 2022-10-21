@@ -6,7 +6,7 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
-import model.Task;
+import model.Project;
 import util.ConnectionFactory;
 
 
@@ -15,11 +15,11 @@ import util.ConnectionFactory;
  *
  * @author HansUlrich
  */
-public class TaskController {
+public class ProjectController {
     
-    public void save(Task task) {
+    public void save(Project project) {
         
-        String sql = "INSERT INTO tasks (idProject, name, description, completed"
+        String sql = "INSERT INTO project (idProject, name, description, completed"
                 + "notes, deadline, createDat, updateDat)"
                 + "values (?,?,?,?,?,?,?,?)";
         
@@ -30,14 +30,14 @@ public class TaskController {
             
             connection = ConnectionFactory.getConnection();
             statement = connection.prepareStatement(sql);
-            statement.setInt(1, task.getIdProject());
-            statement.setString(2, task.getName());
-            statement.setString(3, task.getDescription());
-            statement.setBoolean(4, task.isCompleted());
-            statement.setString(5, task.getNotes());
-            statement.setDate(6, new Date(task.getDeadline().getTime()));
-            statement.setDate(7, new Date(task.getCreateDat().getTime()));
-            statement.setDate(8, new Date(task.getUpdateDat().getTime()));
+            statement.setInt(1, project.getIdProject());
+            statement.setString(2, project.getName());
+            statement.setString(3, project.getDescription());
+            statement.setBoolean(4, project.isCompleted());
+            statement.setString(5, project.getNotes());
+            statement.setDate(6, new Date(project.getDeadline().getTime()));
+            statement.setDate(7, new Date(project.getCreateDat().getTime()));
+            statement.setDate(8, new Date(project.getUpdateDat().getTime()));
             statement.execute();
         } catch (Exception ex) {
             throw new RuntimeException("Erro ao salvar a tarefa " + ex.getMessage(), ex);
@@ -48,9 +48,9 @@ public class TaskController {
        
     }
     
-    public void update(Task task){
+    public void update(Project project){
          
-        String sql = "UPDADE tasks SET idProject = ?, name = ?, description = ?,"
+        String sql = "UPDADE project SET idProject = ?, name = ?, description = ?,"
                 + "notes = ?, deadline = ?, completed = ?, createDat = ? "
                 + "updateDat = ? WHERE id = ?";
         
@@ -63,15 +63,15 @@ public class TaskController {
             // preparando a query
             statement = connection.prepareStatement(sql);
             // setando os valores do statyement
-            statement.setInt(1, task.getIdProject());
-            statement.setString(2, task.getName());
-            statement.setString(3, task.getDescription());
-            statement.setString(4, task.getNotes());
-            statement.setBoolean(5, task.isCompleted());
-            statement.setDate(6, new Date(task.getDeadline().getTime()));
-            statement.setDate(7, new Date(task.getCreateDat().getTime()));
-            statement.setDate(8, new Date(task.getUpdateDat().getTime()));
-            statement.setInt(9, task.getId());
+            statement.setInt(1, project.getIdProject());
+            statement.setString(2, project.getName());
+            statement.setString(3, project.getDescription());
+            statement.setString(4, project.getNotes());
+            statement.setBoolean(5, project.isCompleted());
+            statement.setDate(6, new Date(project.getDeadline().getTime()));
+            statement.setDate(7, new Date(project.getCreateDat().getTime()));
+            statement.setDate(8, new Date(project.getUpdateDat().getTime()));
+            statement.setInt(9, project.getId());
             statement.execute();
         } catch (Exception ex) { 
              throw new RuntimeException("Erro ao atualizar a tarefa");
@@ -83,7 +83,7 @@ public class TaskController {
         
     }
     
-    public void deleteById(int taskId) throws SQLException{
+    public void deleteById(int projectId) throws SQLException{
         
         String sql = "DELETE FROM tasks WHERE id = ?";
         
@@ -97,7 +97,7 @@ public class TaskController {
             // PREPARANDO A QUERY
             statement = connection.prepareStatement(sql);
             // SETANDO OS VALORES
-            statement.setInt(1, taskId);
+            statement.setInt(1, projectId);
             // EXECUTANDO A QUERY
             statement.execute();            
         } catch (Exception ex) { // qualquer tipo de excessão
@@ -107,7 +107,7 @@ public class TaskController {
         }
     }
     
-    public List<Task> getAll(int idProject){
+    public List<Project> getAll(int idProject){
         
         // BUSCA AS TAREFAS NO BANCO DE DADOS
         String sql = "SELECT * FROM tasks WHERE idProject = ?";
@@ -116,7 +116,7 @@ public class TaskController {
         PreparedStatement statement = null;
         ResultSet resultSet = null; // variavel que guarda o retorno do Banco de dados 
         
-        List<Task> tasks = new ArrayList<Task>(); // LISTA DE TAREFAS QUE SERA DEVOLVIDA QUANDO A CHAMADA DO METODO ACONTECER
+        List<Project> project = new ArrayList<Project>(); // LISTA DE TAREFAS QUE SERA DEVOLVIDA QUANDO A CHAMADA DO METODO ACONTECER
         
         try {
             connection = ConnectionFactory.getConnection();
@@ -131,17 +131,17 @@ public class TaskController {
             // ENQUANTO HOUVEREM VALORE A SEREM PERCORRIDOS NO RESULTSET
             while (resultSet.next()) { // O resultSet PODE DEVOLVER UM OU VARIOS VALORES
                 
-                Task task = new Task(); // CRIAR UMA NOVA TAREFA
-                task.setId(resultSet.getInt("id")); // BUSCA AS INFORMAÇÕES NO REGISTRO
-                task.setIdProject(resultSet.getInt("idProject"));
-                task.setName(resultSet.getString("name"));
-                task.setDescription(resultSet.getString("description"));
-                task.setNotes(resultSet.getString("notes"));
-                task.setCompleted(resultSet.getBoolean("completed"));
-                task.setDeadline(resultSet.getDate("deadline"));
-                task.setCreateDat(resultSet.getDate("createDat"));
-                task.setUpdateDat(resultSet.getDate("updateDat"));
-                tasks.add(task); // COLOCA OS VALORES DENTRO DAS TAREFAS 
+                Project project = new Project(); // CRIAR UM NOVo PROJETO
+                project.setId(resultSet.getInt("id")); // BUSCA AS INFORMAÇÕES NO REGISTRO
+                project.setIdProject(resultSet.getInt("idProject"));
+                project.setName(resultSet.getString("name"));
+                project.setDescription(resultSet.getString("description"));
+                project.setNotes(resultSet.getString("notes"));
+                project.setCompleted(resultSet.getBoolean("completed"));
+                project.setDeadline(resultSet.getDate("deadline"));
+                project.setCreateDat(resultSet.getDate("createDat"));
+                project.setUpdateDat(resultSet.getDate("updateDat"));
+                projects.add(project); // COLOCA OS VALORES DENTRO DAS TAREFAS 
               
             }
             
@@ -151,7 +151,7 @@ public class TaskController {
                 ConnectionFactory.closeConnection(connection, statement, resultSet);
         }
             // LISTA DE TAREFAS QUE FOI CRIADA E CARREGADA DO BANCO DE DADOS
-            return tasks;
+            return project;
         
     }
     

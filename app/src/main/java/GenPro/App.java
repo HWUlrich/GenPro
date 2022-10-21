@@ -5,7 +5,7 @@ package GenPro;
 
 public class App {
     public String getGreeting() {
-        return "Hello World!";
+        return "H. W. Ulrich";
     }
 
     public static void main(String[] args) {
