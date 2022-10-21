@@ -11,6 +11,7 @@ public class Task {
     private int idProject;
     private String name;
     private String notes;
+    private String Description;
     private boolean completed;
     private Date deadline;
     private Date createDat;
@@ -27,9 +28,15 @@ public class Task {
         this.updateDat = updateDat;
     }
 
-    
-    
-    
+    public String getDescription() {
+        return Description;
+    }
+
+    public void setDescription(String Description) {
+        this.Description = Description;
+    }
+
+       
     public int getId() {
         return id;
     }
