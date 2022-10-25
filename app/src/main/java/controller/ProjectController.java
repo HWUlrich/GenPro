@@ -1,4 +1,5 @@
 package controller;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -19,9 +20,9 @@ public class ProjectController {
     
     public void save(Project project) {
         
-        String sql = "INSERT INTO project (idProject, name, description, completed"
-                + "notes, deadline, createDat, updateDat)"
-                + "values (?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO project (name, description, "
+                + "createDat, updateDat) VALUES "
+                + "(?,?,?,?)";
         
         Connection connection = null;
         PreparedStatement statement = null;
@@ -30,14 +31,10 @@ public class ProjectController {
             
             connection = ConnectionFactory.getConnection();
             statement = connection.prepareStatement(sql);
-            statement.setInt(1, project.getIdProject());
-            statement.setString(2, project.getName());
-            statement.setString(3, project.getDescription());
-            statement.setBoolean(4, project.isCompleted());
-            statement.setString(5, project.getNotes());
-            statement.setDate(6, new Date(project.getDeadline().getTime()));
-            statement.setDate(7, new Date(project.getCreateDat().getTime()));
-            statement.setDate(8, new Date(project.getUpdateDat().getTime()));
+            statement.setString(1, project.getName());
+            statement.setString(2, project.getDescription());
+            statement.setDate(3, new Date(project.getCreateDat().getTime()));
+            statement.setDate(4, new Date(project.getUpdateDat().getTime()));
             statement.execute();
         } catch (Exception ex) {
             throw new RuntimeException("Erro ao salvar a tarefa " + ex.getMessage(), ex);
@@ -50,9 +47,8 @@ public class ProjectController {
     
     public void update(Project project){
          
-        String sql = "UPDADE project SET idProject = ?, name = ?, description = ?,"
-                + "notes = ?, deadline = ?, completed = ?, createDat = ? "
-                + "updateDat = ? WHERE id = ?";
+        String sql = "UPDADE project SET name = ?, description = ?,"
+                + " createDat = ?, updateDat = ? WHERE id = ?";
         
         Connection connection = null;
         PreparedStatement statement = null;
@@ -63,15 +59,12 @@ public class ProjectController {
             // preparando a query
             statement = connection.prepareStatement(sql);
             // setando os valores do statyement
-            statement.setInt(1, project.getIdProject());
-            statement.setString(2, project.getName());
-            statement.setString(3, project.getDescription());
-            statement.setString(4, project.getNotes());
-            statement.setBoolean(5, project.isCompleted());
-            statement.setDate(6, new Date(project.getDeadline().getTime()));
-            statement.setDate(7, new Date(project.getCreateDat().getTime()));
-            statement.setDate(8, new Date(project.getUpdateDat().getTime()));
-            statement.setInt(9, project.getId());
+            
+            statement.setString(1, project.getName());
+            statement.setString(2, project.getDescription());
+            statement.setDate(3, new Date(project.getCreateDat().getTime()));
+            statement.setDate(4, new Date(project.getUpdateDat().getTime()));
+            statement.setInt(5, project.getId());
             statement.execute();
         } catch (Exception ex) { 
              throw new RuntimeException("Erro ao atualizar a tarefa");
@@ -109,14 +102,14 @@ public class ProjectController {
     
     public List<Project> getAll(int idProject){
         
-        // BUSCA AS TAREFAS NO BANCO DE DADOS
-        String sql = "SELECT * FROM tasks WHERE idProject = ?";
+        // BUSCA TODOS OS PROJETOS NO BANCO DE DADOS
+        String sql = "SELECT * FROM Projects";
         
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null; // variavel que guarda o retorno do Banco de dados 
         
-        List<Project> project = new ArrayList<Project>(); // LISTA DE TAREFAS QUE SERA DEVOLVIDA QUANDO A CHAMADA DO METODO ACONTECER
+        List<Project> projects = new ArrayList<>(); // LISTA DE TAREFAS QUE SERA DEVOLVIDA QUANDO A CHAMADA DO METODO ACONTECER
         
         try {
             connection = ConnectionFactory.getConnection();
@@ -131,17 +124,14 @@ public class ProjectController {
             // ENQUANTO HOUVEREM VALORE A SEREM PERCORRIDOS NO RESULTSET
             while (resultSet.next()) { // O resultSet PODE DEVOLVER UM OU VARIOS VALORES
                 
-                Project project = new Project(); // CRIAR UM NOVo PROJETO
+                Project project = new Project ();
+                
                 project.setId(resultSet.getInt("id")); // BUSCA AS INFORMAÇÕES NO REGISTRO
-                project.setIdProject(resultSet.getInt("idProject"));
                 project.setName(resultSet.getString("name"));
                 project.setDescription(resultSet.getString("description"));
-                project.setNotes(resultSet.getString("notes"));
-                project.setCompleted(resultSet.getBoolean("completed"));
-                project.setDeadline(resultSet.getDate("deadline"));
                 project.setCreateDat(resultSet.getDate("createDat"));
                 project.setUpdateDat(resultSet.getDate("updateDat"));
-                projects.add(project); // COLOCA OS VALORES DENTRO DAS TAREFAS 
+                projects.add(project); // COLOCA OS VALORES DENTRO NA LISTA DE PROJETOS 
               
             }
             
@@ -151,10 +141,8 @@ public class ProjectController {
                 ConnectionFactory.closeConnection(connection, statement, resultSet);
         }
             // LISTA DE TAREFAS QUE FOI CRIADA E CARREGADA DO BANCO DE DADOS
-            return project;
+            return projects;
         
     }
     
-    
-     
 }

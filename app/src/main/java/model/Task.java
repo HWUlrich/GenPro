@@ -1,4 +1,5 @@
 package model;
+
 import java.util.Date;
 
 /**
@@ -29,15 +30,6 @@ public class Task {
         this.updateDat = updateDat;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String Description) {
-        this.description = description;
-    }
-
-       
     public int getId() {
         return id;
     }
@@ -68,6 +60,14 @@ public class Task {
 
     public void setNotes(String notes) {
         this.notes = notes;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public boolean isCompleted() {
@@ -101,11 +101,13 @@ public class Task {
     public void setUpdateDat(Date updateDat) {
         this.updateDat = updateDat;
     }
-    
+
     @Override
     public String toString() {
-        return "Task{" + "id=" + id + ", idProject=" + idProject + ", name=" + name + ", notes=" + notes + ", description=" + description+ ", completed=" + completed + ", deadline=" + deadline + ", createDat=" + createDat + ", updateDat=" + updateDat + '}';
+        return "Task{" + "id=" + id + ", idProject=" + idProject + ", name=" +
+                name + ", notes=" + notes + ", description=" + description +
+                ", completed=" + completed + ", deadline=" + deadline +
+                ", createDat=" + createDat + ", updateDat=" + updateDat + '}';
     }
-   
     
 }

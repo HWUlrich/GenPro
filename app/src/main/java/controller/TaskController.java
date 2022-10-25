@@ -1,4 +1,5 @@
 package controller;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -132,6 +133,7 @@ public class TaskController {
             while (resultSet.next()) { // O resultSet PODE DEVOLVER UM OU VARIOS VALORES
                 
                 Task task = new Task(); // CRIAR UMA NOVA TAREFA
+                
                 task.setId(resultSet.getInt("id")); // BUSCA AS INFORMAÇÕES NO REGISTRO
                 task.setIdProject(resultSet.getInt("idProject"));
                 task.setName(resultSet.getString("name"));
@@ -155,6 +157,4 @@ public class TaskController {
         
     }
     
-    
-     
 }

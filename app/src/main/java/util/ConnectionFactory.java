@@ -11,7 +11,7 @@ import java.sql.ResultSet;
 public class ConnectionFactory {
     
     public static final String DRIVER = "com.mysql.jdbc.Driver"; //DRIVER USADO DO BANCO DE DADOS E PODE MUDAR DE ACORDO COM O BANCO USADO
-    public static final String URL = "jdbc:mysql://localhost:3306/genpro"; // CAMINHO DE CONEXAÕ COM O BANCO DE DADOS
+    public static final String URL = "jdbc:mysql://localhost:3306/genpro"; // CAMINHO DE CONEXÃO COM O BANCO DE DADOS
     public static final String USER = "root"; //USUARIO por padrão root
     public static final String PASS = ""; //SENHA
     
